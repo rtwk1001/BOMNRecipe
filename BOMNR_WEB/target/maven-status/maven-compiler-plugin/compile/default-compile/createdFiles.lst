@@ -1,0 +1,5 @@
+com\incture\springmvc\domain\Message.class
+com\incture\springmvc\controller\BomController.class
+com\incture\springmvc\configuration\HelloWorldConfiguration.class
+com\incture\springmvc\configuration\HelloWorldInitializer.class
+com\incture\springmvc\controller\RecipeController.class
