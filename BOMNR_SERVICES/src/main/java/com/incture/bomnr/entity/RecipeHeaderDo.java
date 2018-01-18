@@ -1,6 +1,7 @@
 package com.incture.bomnr.entity;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -51,6 +52,14 @@ public class RecipeHeaderDo implements BaseDo {
 	// alternate text
 	@Column(name = "ALT_TEXT", nullable = true)
 	private String recipeAltText;
+	@Column(name = "CREATED_On", nullable = true)
+	private Date recipeCreatedOn;
+	@Column(name = "CREATED_BY", nullable = true)
+	private String recipeCreatedBy;
+	@Column(name = "UPDATED_On", nullable = true)
+	private Date recipeUpdatedOn;
+	@Column(name = "UPDATED_BY", nullable = true)
+	private String recipeUpdateddBy;
 
 	@OneToMany(targetEntity = RecipeItemsDo.class,  fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -59,6 +68,38 @@ public class RecipeHeaderDo implements BaseDo {
 	@OneToMany(targetEntity = RecipeCommentsDo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<RecipeCommentsDo> comments;
+
+	public Date getRecipeCreatedOn() {
+		return recipeCreatedOn;
+	}
+
+	public void setRecipeCreatedOn(Date recipeCreatedOn) {
+		this.recipeCreatedOn = recipeCreatedOn;
+	}
+
+	public String getRecipeCreatedBy() {
+		return recipeCreatedBy;
+	}
+
+	public void setRecipeCreatedBy(String recipeCreatedBy) {
+		this.recipeCreatedBy = recipeCreatedBy;
+	}
+
+	public Date getRecipeUpdatedOn() {
+		return recipeUpdatedOn;
+	}
+
+	public void setRecipeUpdatedOn(Date recipeUpdatedOn) {
+		this.recipeUpdatedOn = recipeUpdatedOn;
+	}
+
+	public String getRecipeUpdateddBy() {
+		return recipeUpdateddBy;
+	}
+
+	public void setRecipeUpdateddBy(String recipeUpdateddBy) {
+		this.recipeUpdateddBy = recipeUpdateddBy;
+	}
 
 	public String getRequestNo() {
 		return requestNo;

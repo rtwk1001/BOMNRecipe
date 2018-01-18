@@ -17,6 +17,7 @@ import com.incture.bomnr.dto.BaseDto;
 import com.incture.bomnr.dto.BomCommentsDto;
 import com.incture.bomnr.dto.BomHeaderDto;
 import com.incture.bomnr.dto.BomItemsDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
 
 import com.incture.bomnr.service.BomHeaderServiceLocal;
@@ -35,10 +36,10 @@ public class BomController {
 		return "Welcome to RestTemplate Example.";
 	}
 
-	@RequestMapping("/hello/{player}")
-	public Message message(@PathVariable String player) {// REST Endpoint.
+	@RequestMapping("/hello/{x}")
+	public Message message(@PathVariable String x) {// REST Endpoint.
 
-		Message msg = new Message(player, "Hello " + player);
+		Message msg = new Message(x, "Hello " + x);
 		return msg;
 	}
 
@@ -97,7 +98,10 @@ public class BomController {
 		head.setBomRefALtBOM("alt");
 		head.setComments(comlist);
 		head.setItems(itemlist);
-
+        head.setBomCreatedBy("SYSTEM");
+        head.setBomCreatedOn(new Date());
+        head.setBomUpdateddBy("SYSTEM");
+        head.setBomUpdatedOn(new Date());
 		return head;
 
 	}
@@ -128,6 +132,25 @@ public class BomController {
 	public ResponseDto updateBom(@RequestBody BomHeaderDto Dto) {
 		return bomservice.updateBom(Dto);
 	}
+
+	@RequestMapping(value = "/bom/remove", method = RequestMethod.DELETE)
+	public ResponseDto deleteDto(@RequestBody RemoveMultipeDto dto) {
+		return bomservice.deleteMultipeBom(dto);
+
+	}
+	@RequestMapping(value = "/bom/remove/structure")
+	public RemoveMultipeDto deleteDtoStructure() {
+	RemoveMultipeDto rem=new RemoveMultipeDto();
+	List<String> str= new ArrayList<String>();
+	str.add("BOM00000001");
+	str.add("BOM00000002");
+	rem.setReqNumbers(str);
+	return rem;
+	
+
+	}
+	
+	
 	/*
 	 * @RequestMapping("/employee/all") public List<Employee> findAll() { return
 	 * es.findAllEmployees();

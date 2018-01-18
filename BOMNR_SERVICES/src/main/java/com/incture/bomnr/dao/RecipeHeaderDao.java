@@ -29,6 +29,10 @@ public class RecipeHeaderDao extends BaseDao<RecipeHeaderDo, RecipeHeaderDto> {
 		recipeHeaderDo.setRecipePlantCode(recipeHeaderDto.getRecipePlantCode());
 		recipeHeaderDo.setRecipeRefAltBOM(recipeHeaderDto.getRecipeAltBOM());
 		recipeHeaderDo.setRecipeRefMaterialCode(recipeHeaderDto.getRecipeRefMaterialCode());
+		recipeHeaderDo.setRecipeCreatedBy(recipeHeaderDto.getRecipeCreatedBy());
+		recipeHeaderDo.setRecipeCreatedOn(recipeHeaderDto.getRecipeCreatedOn());
+		recipeHeaderDo.setRecipeUpdateddBy(recipeHeaderDto.getRecipeUpdateddBy());
+		recipeHeaderDo.setRecipeUpdatedOn(recipeHeaderDto.getRecipeUpdatedOn());
 		if (recipeHeaderDto.getComments() != null) {
 			List<RecipeCommentsDo> comList = new ArrayList<RecipeCommentsDo>();
 			RecipeCommentsDao comdao = new RecipeCommentsDao();
@@ -61,6 +65,10 @@ public class RecipeHeaderDao extends BaseDao<RecipeHeaderDo, RecipeHeaderDto> {
 		recipeHeaderDto.setRecipePlantCode(recipeHeaderDo.getRecipePlantCode());
 		recipeHeaderDto.setRecipeRefAltBOM(recipeHeaderDo.getRecipeAltBOM());
 		recipeHeaderDto.setRecipeRefMaterialCode(recipeHeaderDo.getRecipeRefMaterialCode());
+		recipeHeaderDto.setRecipeCreatedBy(recipeHeaderDo.getRecipeCreatedBy());
+		recipeHeaderDto.setRecipeCreatedOn(recipeHeaderDo.getRecipeCreatedOn());
+		recipeHeaderDto.setRecipeUpdateddBy(recipeHeaderDo.getRecipeUpdateddBy());
+		recipeHeaderDto.setRecipeUpdatedOn(recipeHeaderDo.getRecipeUpdatedOn());
 		if (recipeHeaderDo.getComments() != null) {
 			List<RecipeCommentsDto> comList = new ArrayList<RecipeCommentsDto>();
 			RecipeCommentsDao comdao = new RecipeCommentsDao();

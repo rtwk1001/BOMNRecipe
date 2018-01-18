@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.incture.bomnr.dto.BaseDto;
 import com.incture.bomnr.dto.BomHeaderDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
 
 public interface BomHeaderServiceLocal {
@@ -16,4 +17,6 @@ public interface BomHeaderServiceLocal {
 	List<BomHeaderDto> findAllBom();
 
 	ResponseDto updateBom(BomHeaderDto Dto);
+	
+	ResponseDto deleteMultipeBom(RemoveMultipeDto Dto);
 }

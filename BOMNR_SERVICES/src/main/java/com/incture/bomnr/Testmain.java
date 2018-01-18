@@ -11,7 +11,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.incture.bomnr.configuration.AppConfig;
+import com.incture.bomnr.dto.BomCommentsDto;
 import com.incture.bomnr.dto.BomHeaderDto;
+import com.incture.bomnr.dto.BomItemsDto;
 import com.incture.bomnr.entity.BomCommentsDo;
 import com.incture.bomnr.entity.BomHeaderDo;
 import com.incture.bomnr.entity.BomItemsDo;
@@ -37,15 +39,15 @@ public class Testmain {
 		
 		
 		
-	/*	
-		List<BomCommentsDo> comlist = new ArrayList<BomCommentsDo>();
-		List<BomItemsDo> itemlist = new ArrayList<BomItemsDo>();
-		BomCommentsDo com = new BomCommentsDo();
+		
+		List<BomCommentsDto> comlist = new ArrayList<BomCommentsDto>();
+		List<BomItemsDto> itemlist = new ArrayList<BomItemsDto>();
+		BomCommentsDto com = new BomCommentsDto();
 		com.setComCreatedBy("hella");
 		com.setComCreatedOn(new Date());
 
 		com.setComComment("testing");
-		BomCommentsDo com1 = new BomCommentsDo();
+		BomCommentsDto com1 = new BomCommentsDto();
 		com1.setComCreatedBy("hell");
 		com1.setComCreatedOn(new Date());
 
@@ -54,7 +56,7 @@ public class Testmain {
 		comlist.add(com);
 		comlist.add(com1);
 
-		BomItemsDo item1 = new BomItemsDo(); // item1.setBOM_S_Number("3");
+		BomItemsDto item1 = new BomItemsDto(); // item1.setBOM_S_Number("3");
 		item1.setBomCompCode("inc");
 		item1.setBomCompDes("Sap");
 		item1.setBomQty("20");
@@ -64,7 +66,7 @@ public class Testmain {
 		item1.setBomManufacturer("halwa");
 		item1.setBomSortString("avaba");
 		item1.setBomStorageLoc("loaa");
-		BomItemsDo item12 = new BomItemsDo();
+		BomItemsDto item12 = new BomItemsDto();
 		item12.setBomCompCode("inc");
 		item12.setBomCompDes("Sap");
 		item12.setBomQty("20");
@@ -78,21 +80,23 @@ public class Testmain {
 		itemlist.add(item1);
 		itemlist.add(item12);
 
-		BomHeaderDo head = new BomHeaderDo();
+		BomHeaderDto head = new BomHeaderDto();
 
 		head.setBomRefMaterialCode("23");
-		head.setBomRefAltBOM("232");
+		
 		head.setBomAltBOM("ALT23");
 		head.setBomBaseQty("23");
 		head.setBomMaterialCode("heala");
 		head.setBomAltText("haha");
 		head.setBomBaseUom("uom");
 		head.setBomPlantCode("ada");
-		head.setBomRefAltBOM("alt");
+		head.setBomRefALtBOM("alt");
 		head.setComments(comlist);
 		head.setItems(itemlist);
-		es.saveBOMHeader(head);
-		context.close();*/
+		head.setBomCreatedBy("SYSTEM");
+		head.setBomCreatedOn(new Date());
+		bomservice.createBom(head);
+		context.close();
 		/*List<RecipeCommentsDo> comlist = new ArrayList<RecipeCommentsDo>();
 		List<RecipeItemsDo> itemlist = new ArrayList<RecipeItemsDo>();
 		RecipeCommentsDo com = new RecipeCommentsDo();

@@ -10,8 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.incture.bomnr.dao.RecipeHeaderDao;
 import com.incture.bomnr.dto.BaseDto;
-
+import com.incture.bomnr.dto.BomHeaderDto;
 import com.incture.bomnr.dto.RecipeHeaderDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
 
 @Service("recipeheaderservice")
@@ -29,7 +30,18 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 
 	public ResponseDto createRecipe(RecipeHeaderDto Dto) {
 		Dto.setRequestNo(SequenceNumberGen.getInstance().getNextSeqNumber("REC", 8, getSession()));
-		return recipeHeaderDao.create(Dto);
+		try {
+			return recipeHeaderDao.create(Dto);
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ResponseDto response = new ResponseDto();
+			response.setStatus(false);
+			response.setMessage("Failed" + e.toString());
+			return response;
+
+		}
 
 	}
 
@@ -45,7 +57,7 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 			e.printStackTrace();
 			ResponseDto response = new ResponseDto();
 			response.setStatus(false);
-			response.setMessage("Invalid Response Number");
+			response.setMessage("Invalid Request Number");
 			return response;
 		}
 
@@ -83,7 +95,28 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 	}
 
 	public ResponseDto updateRecipe(RecipeHeaderDto Dto) {
-		// TODO Auto-generated method stub
+		
 		return recipeHeaderDao.update(Dto);
 	}
+
+	public ResponseDto deleteMultipeRecipe(RemoveMultipeDto Dto) {
+		List<String> reqNos=Dto.getReqNumbers();
+		ResponseDto res=new ResponseDto();
+		
+		try{for(String reqNo:reqNos){
+			RecipeHeaderDto inputdto = new RecipeHeaderDto();
+			inputdto.setRequestNo(reqNo);
+			recipeHeaderDao.deleteDto(inputdto);
+		}
+		res.setStatus(true);
+		res.setMessage("Successfully deleted the desired Recipies");
+		
+		}
+		catch(Exception e){
+		res.setStatus(false);
+		res.setMessage("Invalid Input or unable to delete the desired files");
+		}
+		return res;
+	}
+	
 }

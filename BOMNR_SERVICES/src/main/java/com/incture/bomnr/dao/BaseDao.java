@@ -15,11 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.incture.bomnr.dto.BaseDto;
 import com.incture.bomnr.dto.ResponseDto;
 import com.incture.bomnr.entity.BaseDo;
-
+import com.incture.bomnr.exceptions.ExecutionFault;
+import com.incture.bomnr.exceptions.InvalidInputFault;
+import com.incture.bomnr.exceptions.NoResultFault;
+import com.incture.bomnr.exceptions.NonUniqueRecordFault;
 import com.incture.bomnr.util.BOMNROperation;
 
 public abstract class BaseDao<E extends BaseDo, D extends BaseDto> {
-
+    
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -42,20 +45,20 @@ public abstract class BaseDao<E extends BaseDo, D extends BaseDto> {
 	}
 //Import Generic
 	public E importdto(BOMNROperation op, D dto) throws Exception {
-
+        dto.validate(op);
 		return importDto(dto);
 	}
 //Export Generic
-	public D exportdto(BOMNROperation create, E dos) throws Exception {
+	public D exportdto(BOMNROperation op, E dos) throws Exception {
 		// TODO Auto-generated method stub
 		return exportDto(dos);
 	}
 
 	abstract D exportDto(E dos);
 
-	abstract E importDto(D dto);
+	abstract E importDto(D dto)throws InvalidInputFault, ExecutionFault, NoResultFault;
 //Create
-	public ResponseDto create(D dto) {
+	public ResponseDto create(D dto) throws Exception{
 		ResponseDto response = new ResponseDto();
 		try {
 			// persisting the dto
@@ -67,7 +70,7 @@ public abstract class BaseDao<E extends BaseDo, D extends BaseDto> {
 		catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(false);
-			response.setMessage("failed");
+			response.setMessage("failed"+e.toString());
 		}
 		return response;
 
@@ -83,7 +86,7 @@ public abstract class BaseDao<E extends BaseDo, D extends BaseDto> {
 	
 
 	@SuppressWarnings("unchecked")
-	protected E find(E pojo) {
+	protected E find(E pojo)  throws Exception {
 		E result = null;
 		try {
 

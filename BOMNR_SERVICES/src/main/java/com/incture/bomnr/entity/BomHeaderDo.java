@@ -1,6 +1,6 @@
 package com.incture.bomnr.entity;
 
-
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 
 @Entity
 @Table(name = "BOM_HEADER")
@@ -53,7 +52,48 @@ public class BomHeaderDo implements BaseDo {
 	@Column(name = "ALT_TEXT", nullable = true)
 	private String bomAltText;
 
-	@OneToMany(targetEntity = BomItemsDo.class,  fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Column(name = "CREATED_On", nullable = true)
+	private Date bomCreatedOn;
+	@Column(name = "CREATED_BY", nullable = true)
+	private String bomCreatedBy;
+	@Column(name = "UPDATED_On", nullable = true)
+	private Date bomUpdatedOn;
+	@Column(name = "UPDATED_BY", nullable = true)
+	private String bomUpdateddBy;
+
+	public Date getBomCreatedOn() {
+		return bomCreatedOn;
+	}
+
+	public void setBomCreatedOn(Date bomCreatedOn) {
+		this.bomCreatedOn = bomCreatedOn;
+	}
+
+	public String getBomCreatedBy() {
+		return bomCreatedBy;
+	}
+
+	public void setBomCreatedBy(String bomCreatedBy) {
+		this.bomCreatedBy = bomCreatedBy;
+	}
+
+	public Date getBomUpdatedOn() {
+		return bomUpdatedOn;
+	}
+
+	public void setBomUpdatedOn(Date bomUpdatedOn) {
+		this.bomUpdatedOn = bomUpdatedOn;
+	}
+
+	public String getBomUpdateddBy() {
+		return bomUpdateddBy;
+	}
+
+	public void setBomUpdateddBy(String bomUpdateddBy) {
+		this.bomUpdateddBy = bomUpdateddBy;
+	}
+
+	@OneToMany(targetEntity = BomItemsDo.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<BomItemsDo> items;
 

@@ -37,10 +37,15 @@ public class BomHeaderDao extends BaseDao<BomHeaderDo, BomHeaderDto> {
 		bomHeaderDo.setBomAltText(bomHeaderDto.getBomAltText());
 		bomHeaderDo.setBomBaseQty(bomHeaderDto.getBomBaseQty());
 		bomHeaderDo.setBomBaseUom(bomHeaderDto.getBomBaseUom());
+
 		bomHeaderDo.setBomMaterialCode(bomHeaderDto.getBomMaterialCode());
 		bomHeaderDo.setBomPlantCode(bomHeaderDto.getBomPlantCode());
 		bomHeaderDo.setBomRefAltBOM(bomHeaderDto.getBomAltBOM());
 		bomHeaderDo.setBomRefMaterialCode(bomHeaderDto.getBomRefMaterialCode());
+		bomHeaderDo.setBomCreatedBy(bomHeaderDto.getBomCreatedBy());
+		bomHeaderDo.setBomCreatedOn(bomHeaderDto.getBomCreatedOn());
+		bomHeaderDo.setBomUpdateddBy(bomHeaderDto.getBomUpdateddBy());
+		bomHeaderDo.setBomUpdatedOn(bomHeaderDto.getBomUpdatedOn());
 		if (bomHeaderDto.getComments() != null) {
 			List<BomCommentsDo> comList = new ArrayList<BomCommentsDo>();
 			BomCommentsDao comdao = new BomCommentsDao();
@@ -74,6 +79,10 @@ public class BomHeaderDao extends BaseDao<BomHeaderDo, BomHeaderDto> {
 		bomHeaderDto.setBomPlantCode(bomHeaderDo.getBomPlantCode());
 		bomHeaderDto.setBomRefALtBOM(bomHeaderDo.getBomAltBOM());
 		bomHeaderDto.setBomRefMaterialCode(bomHeaderDo.getBomRefMaterialCode());
+		bomHeaderDto.setBomCreatedBy(bomHeaderDo.getBomCreatedBy());
+		bomHeaderDto.setBomCreatedOn(bomHeaderDo.getBomCreatedOn());
+		bomHeaderDto.setBomUpdateddBy(bomHeaderDo.getBomUpdateddBy());
+		bomHeaderDto.setBomUpdatedOn(bomHeaderDo.getBomUpdatedOn());
 		if (bomHeaderDo.getComments() != null) {
 			List<BomCommentsDto> comList = new ArrayList<BomCommentsDto>();
 			BomCommentsDao comdao = new BomCommentsDao();

@@ -5,6 +5,7 @@ import java.util.List;
 import com.incture.bomnr.dto.BaseDto;
 
 import com.incture.bomnr.dto.RecipeHeaderDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
 
 public interface RecipeHeaderServiceLocal {
@@ -17,4 +18,5 @@ public interface RecipeHeaderServiceLocal {
 	List<RecipeHeaderDto> findAllRecipies();
 
 	ResponseDto updateRecipe(RecipeHeaderDto Dto);
+	ResponseDto deleteMultipeRecipe(RemoveMultipeDto Dto);
 }

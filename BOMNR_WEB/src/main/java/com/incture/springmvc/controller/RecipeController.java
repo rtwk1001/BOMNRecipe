@@ -18,6 +18,7 @@ import com.incture.bomnr.dto.BaseDto;
 import com.incture.bomnr.dto.RecipeCommentsDto;
 import com.incture.bomnr.dto.RecipeHeaderDto;
 import com.incture.bomnr.dto.RecipeItemsDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
 
 import com.incture.bomnr.service.RecipeHeaderServiceLocal;
@@ -88,6 +89,10 @@ public class RecipeController {
 		head.setRecipeRefAltBOM("alt");
 		head.setComments(comlist);
 		head.setItems(itemlist);
+		head.setRecipeCreatedBy("SYSTEM");
+		head.setRecipeCreatedOn(new Date());
+		head.setRecipeUpdateddBy("SYSTEM");
+		head.setRecipeUpdatedOn(new Date());
 		// recipeService.createRecipe(head);
 		/* context.close(); */
 
@@ -124,6 +129,12 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/update", method = RequestMethod.PUT)
 	public ResponseDto updateRecipe(@RequestBody RecipeHeaderDto Dto) {
 		return recipeService.updateRecipe(Dto);
+	}
+	//Delete Multipe
+	@RequestMapping(value = "/recipe/remove", method = RequestMethod.DELETE)
+	public ResponseDto deleteDto(@RequestBody RemoveMultipeDto dto) {
+		return recipeService.deleteMultipeRecipe(dto);
+
 	}
 
 }

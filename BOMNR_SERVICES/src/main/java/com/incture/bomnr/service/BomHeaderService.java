@@ -1,5 +1,6 @@
 package com.incture.bomnr.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -11,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.incture.bomnr.dao.BomHeaderDao;
 import com.incture.bomnr.dto.BaseDto;
 import com.incture.bomnr.dto.BomHeaderDto;
+import com.incture.bomnr.dto.RemoveMultipeDto;
 import com.incture.bomnr.dto.ResponseDto;
+import com.incture.bomnr.exceptions.InvalidInputFault;
 
 @Service("bomheaderservice")
 @Transactional
@@ -28,8 +31,20 @@ public class BomHeaderService implements BomHeaderServiceLocal {
 	private BomHeaderDao bomHeaderDao;
 
 	public ResponseDto createBom(BomHeaderDto Dto) {
+		ResponseDto response = new ResponseDto();
 		Dto.setRequestNo(SequenceNumberGen.getInstance().getNextSeqNumber("BOM", 8, getSession()));
-		return bomHeaderDao.create(Dto);
+		Dto.setBomCreatedOn(new Date());
+		try {
+			return bomHeaderDao.create(Dto);
+
+		}
+		catch (Exception e) {
+			response.setStatus(false);
+			response.setMessage("failed" + e.toString());
+
+			e.printStackTrace();
+			return response;
+		}
 	}
 
 	public BaseDto findBom(String requestNo) {
@@ -44,7 +59,7 @@ public class BomHeaderService implements BomHeaderServiceLocal {
 			e.printStackTrace();
 			ResponseDto response = new ResponseDto();
 			response.setStatus(false);
-			response.setMessage("Invalid Response Number");
+			response.setMessage("Invalid Request Number");
 			return response;
 		}
 	}
@@ -82,8 +97,28 @@ public class BomHeaderService implements BomHeaderServiceLocal {
 	}
 
 	public ResponseDto updateBom(BomHeaderDto Dto) {
-
+      
 		return bomHeaderDao.update(Dto);
+	}
+
+	public ResponseDto deleteMultipeBom(RemoveMultipeDto Dto) {
+		List<String> reqNos=Dto.getReqNumbers();
+		ResponseDto res=new ResponseDto();
+		
+		try{for(String reqNo:reqNos){
+			BomHeaderDto inputdto = new BomHeaderDto();
+			inputdto.setRequestNo(reqNo);
+			bomHeaderDao.deleteDto(inputdto);
+		}
+		res.setStatus(true);
+		res.setMessage("Successfully deleted the desired Boms");
+		
+		}
+		catch(Exception e){
+		res.setStatus(false);
+		res.setMessage("Invalid Input or unable to delete the desired files");
+		}
+		return res;
 	}
 
 }
