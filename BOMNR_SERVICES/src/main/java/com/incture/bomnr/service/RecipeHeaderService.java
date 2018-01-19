@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,9 @@ import com.incture.bomnr.dto.ResponseDto;
 @Service("recipeheaderservice")
 @Transactional
 public class RecipeHeaderService implements RecipeHeaderServiceLocal {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(RecipeHeaderService.class);
+
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -39,6 +44,7 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 			ResponseDto response = new ResponseDto();
 			response.setStatus(false);
 			response.setMessage("Failed" + e.toString());
+			LOGGER.error(" Unable to create the REcipe");
 			return response;
 
 		}
@@ -58,6 +64,7 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 			ResponseDto response = new ResponseDto();
 			response.setStatus(false);
 			response.setMessage("Invalid Request Number");
+			LOGGER.error(" Unable to find  the REcipe with request Number: " + requestNo);
 			return response;
 		}
 
@@ -77,6 +84,7 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 			e.printStackTrace();
 			response.setStatus(false);
 			response.setMessage("Failed to delete the Recipe. Request number:" + requestNo);
+			LOGGER.error("Failed to delete the Recipe. Request number:" + requestNo);
 		}
 		return response;
 	}
@@ -89,34 +97,46 @@ public class RecipeHeaderService implements RecipeHeaderServiceLocal {
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-
+			LOGGER.error("Failed to fetch all Recipes.");
 			return null;
 		}
 	}
 
 	public ResponseDto updateRecipe(RecipeHeaderDto Dto) {
-		
-		return recipeHeaderDao.update(Dto);
+		ResponseDto response = new ResponseDto();
+		try {
+			recipeHeaderDao.update(Dto);
+			response.setMessage("Recipe with  request Number :" + Dto.getRequestNo() + "updated!");
+			response.setStatus(true);
+		}
+		catch (Exception e) {
+			response.setStatus(false);
+			response.setMessage("Updation failed with: " + e.toString());
+			LOGGER.error("Unable to Update the Recipe with request ID: " + Dto.getRequestNo());
+		}
+		return response;
 	}
 
 	public ResponseDto deleteMultipeRecipe(RemoveMultipeDto Dto) {
-		List<String> reqNos=Dto.getReqNumbers();
-		ResponseDto res=new ResponseDto();
-		
-		try{for(String reqNo:reqNos){
-			RecipeHeaderDto inputdto = new RecipeHeaderDto();
-			inputdto.setRequestNo(reqNo);
-			recipeHeaderDao.deleteDto(inputdto);
+		List<String> reqNos = Dto.getReqNumbers();
+		ResponseDto res = new ResponseDto();
+
+		try {
+			for (String reqNo : reqNos) {
+				RecipeHeaderDto inputdto = new RecipeHeaderDto();
+				inputdto.setRequestNo(reqNo);
+				recipeHeaderDao.deleteDto(inputdto);
+			}
+			res.setStatus(true);
+			res.setMessage("Successfully deleted the desired Recipies");
+
 		}
-		res.setStatus(true);
-		res.setMessage("Successfully deleted the desired Recipies");
-		
-		}
-		catch(Exception e){
-		res.setStatus(false);
-		res.setMessage("Invalid Input or unable to delete the desired files");
+		catch (Exception e) {
+			res.setStatus(false);
+			res.setMessage("Invalid Input or unable to delete the desired files");
+			LOGGER.error("Failed to delete multiple Recipes. ");
 		}
 		return res;
 	}
-	
+
 }

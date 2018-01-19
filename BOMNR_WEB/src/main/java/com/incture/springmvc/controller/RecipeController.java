@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,10 +29,11 @@ import com.incture.bomnr.service.RecipeHeaderServiceLocal;
 public class RecipeController {
 	AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 	RecipeHeaderServiceLocal recipeService = (RecipeHeaderServiceLocal) context.getBean("recipeheaderservice");
+	private static final Logger LOGGER = LoggerFactory.getLogger(RecipeController.class);
 
 	@RequestMapping("/recipe/structure")
 	public RecipeHeaderDto structureRecipe() {
-
+		LOGGER.info("Inside Recipe Structure showing function");
 		List<RecipeCommentsDto> comlist = new ArrayList<RecipeCommentsDto>();
 		List<RecipeItemsDto> itemlist = new ArrayList<RecipeItemsDto>();
 		RecipeCommentsDto com = new RecipeCommentsDto();
@@ -102,18 +105,21 @@ public class RecipeController {
 	// Create
 	@RequestMapping(value = "/recipe", method = RequestMethod.POST)
 	public ResponseDto CreateRecipe(@RequestBody RecipeHeaderDto dto) {
+		LOGGER.info("Inside Recipe create");
 		return recipeService.createRecipe(dto);
 	}
 
 	// Find by Id
 	@RequestMapping(value = "/recipe/{requestNo}", method = RequestMethod.GET)
 	public BaseDto findById(@PathVariable String requestNo) {
+		LOGGER.info("Inside Recipe get by id");
 		return recipeService.findById(requestNo);
 	}
 
 	// Delete
 	@RequestMapping(value = "/recipe/remove/{requestNo}", method = RequestMethod.DELETE)
 	public ResponseDto deleteDto(@PathVariable String requestNo) {
+		LOGGER.info("Inside Recipe remove by id");
 		return recipeService.deleteRecipe(requestNo);
 
 	}
@@ -121,6 +127,7 @@ public class RecipeController {
 	// Find All
 	@RequestMapping(value = "/recipe/all", method = RequestMethod.GET)
 	public List<RecipeHeaderDto> findAllBom() {
+		LOGGER.info("Inside Recipe get all");
 		return recipeService.findAllRecipies();
 
 	}
@@ -128,11 +135,14 @@ public class RecipeController {
 	// Update
 	@RequestMapping(value = "/recipe/update", method = RequestMethod.PUT)
 	public ResponseDto updateRecipe(@RequestBody RecipeHeaderDto Dto) {
+		LOGGER.info("Inside Recipe Update function");
 		return recipeService.updateRecipe(Dto);
 	}
-	//Delete Multipe
+
+	// Delete Multipe
 	@RequestMapping(value = "/recipe/remove", method = RequestMethod.DELETE)
 	public ResponseDto deleteDto(@RequestBody RemoveMultipeDto dto) {
+		LOGGER.info("Inside Recipe multiple deletion");
 		return recipeService.deleteMultipeRecipe(dto);
 
 	}

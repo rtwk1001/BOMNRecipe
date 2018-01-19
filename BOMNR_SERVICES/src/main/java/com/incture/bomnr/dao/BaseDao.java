@@ -114,22 +114,14 @@ List<D> outDtos=new ArrayList<D>();
 		 return outDtos;
 	}
 	 //UPdate
-	 public ResponseDto update(D dto)  {
-		ResponseDto response= new ResponseDto();	
+	 public void update(D dto) throws Exception {
+		
 			
-		try {
+		
 			getByKeysForFK(dto);
 			update(importdto(BOMNROperation.UPDATE, dto));
-			response.setStatus(true);
-			response.setMessage("BOM with Request Number:"+importDto(dto).getPrimaryKey()+"is updated SuccessFully");
-		}
-		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			response.setMessage("Failed");
-			response.setStatus(false);
-		}
-		return response;
+		
+	
 		}
 	
 //Delete

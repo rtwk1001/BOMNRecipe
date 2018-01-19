@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,13 +31,17 @@ public class BomController {
 	AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 	// EmployeeService es = (EmployeeService)
 	// context.getBean("employeeService");
+	private static final Logger LOGGER = LoggerFactory.getLogger(BomController.class);
+
 	BomHeaderServiceLocal bomservice = (BomHeaderServiceLocal) context.getBean("bomheaderservice");
 
+	// check rest
 	@RequestMapping("/")
 	public String welcome() {// Welcome page, non-rest
 		return "Welcome to RestTemplate Example.";
 	}
 
+	// check
 	@RequestMapping("/hello/{x}")
 	public Message message(@PathVariable String x) {// REST Endpoint.
 
@@ -43,8 +49,10 @@ public class BomController {
 		return msg;
 	}
 
+	// show the structure of the bom
 	@RequestMapping("/bom/structure")
 	public BomHeaderDto structureBom() {
+		LOGGER.info("Inside bom Structure");
 		List<BomCommentsDto> comlist = new ArrayList<BomCommentsDto>();
 		List<BomItemsDto> itemlist = new ArrayList<BomItemsDto>();
 		BomCommentsDto com = new BomCommentsDto();
@@ -98,91 +106,70 @@ public class BomController {
 		head.setBomRefALtBOM("alt");
 		head.setComments(comlist);
 		head.setItems(itemlist);
-        head.setBomCreatedBy("SYSTEM");
-        head.setBomCreatedOn(new Date());
-        head.setBomUpdateddBy("SYSTEM");
-        head.setBomUpdatedOn(new Date());
+		head.setBomCreatedBy("SYSTEM");
+		head.setBomCreatedOn(new Date());
+		head.setBomUpdateddBy("SYSTEM");
+		head.setBomUpdatedOn(new Date());
 		return head;
 
 	}
 
+	// create bom
 	@RequestMapping(value = "/bom", method = RequestMethod.POST)
 	public ResponseDto createBom(@RequestBody BomHeaderDto Dto) {
+		LOGGER.info("Inside bom creation");
 		return bomservice.createBom(Dto);
 	}
 
+	// find single by request Id
 	@RequestMapping("/bom/{requestNo}")
 	public BaseDto findById(@PathVariable String requestNo) {
+		LOGGER.info("Inside Find By Id");
 		return bomservice.findBom(requestNo);
 	}
 
+	// remove single by request Id
 	@RequestMapping(value = "/bom/remove/{requestNo}", method = RequestMethod.DELETE)
 	public ResponseDto deleteDto(@PathVariable String requestNo) {
+		LOGGER.info("Inside Delete Single bom header function");
 		return bomservice.deleteBom(requestNo);
 
 	}
 
+	// show all
 	@RequestMapping("/bom/all")
 	public List<BomHeaderDto> findAllBom() {
+		LOGGER.info("Inside return all boms ");
 		return bomservice.findAllBom();
 
 	}
 
+	// update
 	@RequestMapping(value = "/bom/update", method = RequestMethod.PUT)
 	public ResponseDto updateBom(@RequestBody BomHeaderDto Dto) {
+		LOGGER.info("Inside updateBom");
 		return bomservice.updateBom(Dto);
 	}
 
+	// multiple deletion
 	@RequestMapping(value = "/bom/remove", method = RequestMethod.DELETE)
 	public ResponseDto deleteDto(@RequestBody RemoveMultipeDto dto) {
+		LOGGER.info("Inside multiple remove");
 		return bomservice.deleteMultipeBom(dto);
 
 	}
+
+	// structure for deletion dto
 	@RequestMapping(value = "/bom/remove/structure")
 	public RemoveMultipeDto deleteDtoStructure() {
-	RemoveMultipeDto rem=new RemoveMultipeDto();
-	List<String> str= new ArrayList<String>();
-	str.add("BOM00000001");
-	str.add("BOM00000002");
-	rem.setReqNumbers(str);
-	return rem;
-	
+		LOGGER.info("Inside bom deletion dto  Structure returniing function");
+		RemoveMultipeDto rem = new RemoveMultipeDto();
+		List<String> str = new ArrayList<String>();
+		str.add("BOM00000001");
+		str.add("BOM00000002");
+		rem.setReqNumbers(str);
+		return rem;
 
 	}
-	
-	
-	/*
-	 * @RequestMapping("/employee/all") public List<Employee> findAll() { return
-	 * es.findAllEmployees();
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping("/employee/data") public Employee findData() { Employee
-	 * employee1 = new Employee(); employee1.setName("heerra");
-	 * employee1.setJoiningDate(new LocalDate(2018, 1, 10));
-	 * employee1.setSalary(new BigDecimal(100123));
-	 * employee1.setSsn("ssn000343"); es.saveEmployee(employee1); return
-	 * employee1;
-	 * 
-	 * }
-	 * 
-	 * @RequestMapping(value = "/employee/save", method = RequestMethod.POST)
-	 * public String Save(@PathVariable Employee employee) { if
-	 * (es.saveEmployee(employee)) return "Successfully Saved!"; else return
-	 * "failed";
-	 * 
-	 * }
-	 * 
-	 * 
-	 * @RequestMapping(value = "/comments/save", method = RequestMethod.GET)
-	 * public String Save( ) { BomCommentsDo com= new BomCommentsDo();
-	 * com.setComCreatedBy("lucky");
-	 * 
-	 * com.setComCreatedOn(new Date(2017,12,2)); if(es.saveBOMComment(com));
-	 * return com.toString();
-	 * 
-	 * 
-	 * }
-	 */
 
 }
